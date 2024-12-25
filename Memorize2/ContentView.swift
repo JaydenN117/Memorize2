@@ -11,9 +11,9 @@ struct ContentView: View {
     var body: some View { //some view sorta auto deects return type of view for example if there is text, it will return text
         HStack {
             CardView(isFaceUp: true)
-            CardView(isFaceUp: false)
-            CardView(isFaceUp: true)
-            CardView(isFaceUp: false)
+            CardView()
+            CardView()
+            CardView()
 //            ForEach(0..<4) { _ in
 //                VStack {
 //                    ForEach(0..<4) { _ in
@@ -29,19 +29,26 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = false;
+    @State var isFaceUp: Bool = false;
     var body: some View {
-        ZStack(content: { // vertical stack
+        ZStack(){ // vertical stack
+            let base = RoundedRectangle(cornerRadius: 12) //let means constant
             if (isFaceUp) {
-                RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: 12).strokeBorder(lineWidth: 4)
-                Text("👻").font(.largeTitle)
+                base.fill(.white)
+                base.strokeBorder(lineWidth: 2)
+                Text("👻")
             } else {
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: 12) //.fill is default
             }
-        })
+        }
+        .onTapGesture {
+            print("Tapped")
+            //self view cannot be changed (its immutable) so isFaceUp = !isFaceUp wont work
+            //For temporary state can use @State in front to create a pointer to a state instead
+            isFaceUp = !isFaceUp
+        }
     }
+        
 }
 
 
