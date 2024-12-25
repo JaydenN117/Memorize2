@@ -8,19 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    let emojis: Array<String> = ["👻","🎃","🕷","😈","🦇","🦈"] //Array<String> equivalent to [String], can also infer
+
     var body: some View { //some view sorta auto deects return type of view for example if there is text, it will return text
         HStack {
-            CardView(isFaceUp: true)
-            CardView()
-            CardView()
-            CardView()
-//            ForEach(0..<4) { _ in
-//                VStack {
-//                    ForEach(0..<4) { _ in
-//                        //every other card is face up, use index
-//                    }
-//                }
-//            }
+            
+            ForEach(emojis.indices, id:\.self) { index in
+                CardView(content:emojis[index])
+                
+            }
             
         }
         .foregroundColor(.orange)
@@ -29,14 +25,15 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    @State var isFaceUp: Bool = false;
+    let content: String
+    @State var isFaceUp: Bool = false
     var body: some View {
         ZStack(){ // vertical stack
             let base = RoundedRectangle(cornerRadius: 12) //let means constant
             if (isFaceUp) {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text("👻")
+                Text(content)
             } else {
                 RoundedRectangle(cornerRadius: 12) //.fill is default
             }
